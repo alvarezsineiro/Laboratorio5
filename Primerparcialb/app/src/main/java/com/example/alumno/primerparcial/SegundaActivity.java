@@ -82,5 +82,12 @@ public class PersonaView {
 String str = getString(R.string.hello_world);
 
 android:text:@string/hello_world
+
+
+PersonaModel perspna= new  PersonaModel();
+        MiListenerControlador controlador = new MiListenerControlador(perspna);
+        PersonaView personaView =new PersonaView(this,controlador);
+
+        controlador.setView(personaView);
      */
 }

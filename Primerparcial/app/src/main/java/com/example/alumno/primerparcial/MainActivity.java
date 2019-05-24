@@ -1,5 +1,6 @@
 package com.example.alumno.primerparcial;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements Handler.Callback,IListener{
     List<Producto> productos;
     Myadapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,11 +26,13 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
 
         Handler h =new Handler(this);
 
-
-
         //MyThread t = new MyThread(h,"http://192.168.2.154:8080/a/listaPersonasImg.xml",1);
-        MyThread t = new MyThread(h,"http://192.168.0.2/a/Productos.xml",1);
+        MyThread t = new MyThread(h,"http://192.168.2.180:8080/Productos.xml",1);
         t.start();
+
+        Button b = (Button) findViewById(R.id.btnuno);
+
+        b.setOnClickListener(new MyListener(this));
     }
 
     @Override
@@ -62,12 +67,19 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
     public void controlStock(int position, int btnId){
         Producto p = productos.get(position);
         Log.d("asdawdsadwa",""+position);
-        if(btnId == R.id.mas) {
-            p.setCantidad(p.getCantidad() + 1);
+
+        Intent i =getIntent();
+        Log.d("asd",i.getStringExtra("tipo"));
+
+        if (i.getStringExtra("tipo").equals("Admin"))
+        {
+            if (btnId == R.id.mas) {
+                p.setCantidad(p.getCantidad() + 1);
+            }
+            if (btnId == R.id.menos) {
+                if (p.getCantidad() != 0) p.setCantidad(p.getCantidad() - 1);
+            }
+            adapter.notifyItemChanged(position);
         }
-        if(btnId == R.id.menos) {
-            if(p.getCantidad() != 0) p.setCantidad(p.getCantidad() - 1);
-        }
-        adapter.notifyItemChanged(position);
     }
 }

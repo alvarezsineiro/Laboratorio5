@@ -3,6 +3,8 @@ package com.example.alumno.primerparcial;
 import android.util.Log;
 import android.util.Xml;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.IOException;
@@ -69,4 +71,27 @@ public class XmlParse {
         return list;
 
     }
+    public static String jsonparse(String json)
+        {
+            try
+            {
+                JSONObject jsonObject = new JSONObject(json);
+                /*JSONArray frutas = jsonObject.getJSONArray("frutas");
+                for(int i=0;i<frutas.length();i++)
+                {
+                    JSONObject fruta = frutas.getJSONObject(i);
+                    String nombre = fruta.getString("nombre_fruta");
+                    Integer cantidad = fruta.getInt("cantidad");
+                    Log.d("json",nombre);
+                    Log.d("json",""+cantidad);
+                }*/
+                return jsonObject.getString("type");
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            return json;
+        }
 }

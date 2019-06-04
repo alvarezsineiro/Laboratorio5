@@ -1,5 +1,6 @@
 package com.example.alumno.primerparcial;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -37,6 +38,11 @@ public class MyThread extends Thread {
         {
             //m.obj= eje.metodoimagen(this.url);
             //m.arg1=2;
+            String s = eje.getString(this.url);
+            String respuesta =XmlParse.jsonparse(s);
+
+            m.obj=respuesta;
+
 
         }
         this.h.sendMessage(m);

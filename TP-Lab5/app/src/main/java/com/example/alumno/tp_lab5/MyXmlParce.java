@@ -7,6 +7,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class MyXmlParce {
 
 
         try {
-            Noticia p = null;
+            Noticia n = null;
             parser.setInput(new StringReader(xml));
             int event = parser.getEventType();
 
@@ -34,32 +35,52 @@ public class MyXmlParce {
                 if (event == XmlPullParser.START_TAG) {
                     if("item".equals(parser.getName()))
                     {
-                        p = new Noticia();
+                        n = new Noticia();
                     }
                     if("title".equals(parser.getName())){
-                        if(p != null){
-                            p.setTitulo(parser.nextText());
+                        if(n != null){
+                            n.setTitulo(parser.nextText());
                         }
                     }
                     if("description".equals(parser.getName())){
-                        if(p != null){
-                            p.setDescripcion(parser.nextText());
+                        if(n != null){
+                            n.setDescripcion(parser.nextText().replace("/n","").replace("|",""));
                         }
                     }
                     if("link".equals(parser.getName())){
-                        if(p != null){
-                            p.setUrl(parser.nextText());
+                        if(n != null){
+                            n.setUrl(parser.nextText());
                         }
                     }
                     if("image".equals(parser.getName())){
-                        if(p != null){
-                            p.setImagenUrl(parser.nextText());
-                            p.setImagen(eje.metodoimagen(p.getImagenUrl()));
+                        if(n != null){
+                            n.setImagenUrl(parser.nextText());
+                            //n.setImagen(eje.metodoimagen(n.getImagenUrl()));
+                        }
+                    }
+
+                    if("enclosure".equals(parser.getName())){
+                        if(n != null){
+                            n.setImagenUrl(parser.getAttributeValue(null,"url"));
+                            if (n.getImagenUrl().equals(null))
+                            {
+                                n.setImagenUrl("https://www.google.com.ar/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
+                            }
+                            else
+                            {
+                                n.setImagen(eje.metodoimagen(n.getImagenUrl()));
+                            }
+
+                        }
+                    }
+                    if("pubDate".equals(parser.getName())){
+                        if(n != null){
+                            n.setFecha(new Date( parser.nextText()));
                         }
                     }
                 }
                 else if(event == XmlPullParser.END_TAG && "item".equals(parser.getName())){
-                    list.add(p);
+                    list.add(n);
                 }
 
 

@@ -14,18 +14,18 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
 
     List<Noticia> noticias;
     MyAdapter adapter;
-
+    Handler h;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        //http://contenidos.lanacion.com.ar/herramientas/rss-origen=2
+        //https://www.pagina12.com.ar/rss/portada
+        //https://tn.com.ar/rss.xml
+        this.h =new Handler(this);
 
-        Handler h =new Handler(this);
-
-        MyThread t = new MyThread(h,"https://tn.com.ar/rss.xml",1);
+        MyThread t = new MyThread(h,"https://www.pagina12.com.ar/rss/portada",1);
         t.start();
     }
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
             RecyclerView lista =(RecyclerView)findViewById(R.id.listado);
             LinearLayoutManager layoutManager =new LinearLayoutManager(this);
             lista.setLayoutManager(layoutManager);
-            adapter =new MyAdapter((List<Noticia>)msg.obj/*,this*/);
+            this.adapter =new MyAdapter((List<Noticia>)msg.obj/*,this*/,this.h);
             lista.setAdapter(adapter);
 
         }
@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback{
             byte[] array = (byte[]) msg.obj;
             //ImageView v = (ImageView) this.findViewById(R.id.imagen);
             //v.setImageBitmap(BitmapFactory.decodeByteArray(array,0,array.length));
+            this.adapter.SetImagen(array,msg.arg2);
+            this.adapter.notifyItemChanged(msg.arg2);
         }
         return false;
     }

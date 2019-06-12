@@ -13,11 +13,18 @@ public class MyThread extends Thread{
     public Handler h;
     public String  url;
     public int textimagen;
+    public int position;
 
     public MyThread(Handler h,String url,int textimagen) {
         this.h=h;
         this.url=url;
         this.textimagen=textimagen;
+    }
+    public MyThread(Handler h,String url,int textimagen,int position) {
+        this.h=h;
+        this.url=url;
+        this.textimagen=textimagen;
+        this.position=position;
     }
 
     @Override
@@ -38,7 +45,7 @@ public class MyThread extends Thread{
         {
             m.obj= eje.metodoimagen(this.url);
             m.arg1=2;
-
+            m.arg2=this.position;
         }
         this.h.sendMessage(m);
     }

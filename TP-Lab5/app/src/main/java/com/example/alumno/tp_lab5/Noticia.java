@@ -1,6 +1,7 @@
 package com.example.alumno.tp_lab5;
 
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by Agus on 4/6/2019.
@@ -9,12 +10,14 @@ import java.util.Arrays;
 public class Noticia {
 
     private String titulo;
-    private String descripcion;
-    private String ImagenUrl;
+    private String descripcion ="Sin descripción";
+    private String ImagenUrl = "https://webhostingmedia.net/wp-content/uploads/2018/01/http-error-404-not-found.png";
     private String url;
     private byte[] imagen;
+    private Date fecha;
 
     public Noticia() {
+        fecha =new Date();
     }
 
     @Override
@@ -24,7 +27,7 @@ public class Noticia {
                 ", descripcion='" + descripcion + '\'' +
                 ", ImagenUrl='" + ImagenUrl + '\'' +
                 ", url='" + url + '\'' +
-                ", imagen=" + Arrays.toString(imagen) +
+                ", Decha=" + fecha +
                 '}';
     }
 
@@ -66,5 +69,13 @@ public class Noticia {
 
     public byte[] getImagen() {
         return imagen;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 }

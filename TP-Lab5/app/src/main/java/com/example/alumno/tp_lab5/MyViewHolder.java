@@ -14,8 +14,9 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     public ImageView imagen;
     public TextView titulo;
     public TextView descripcion;
-    ImageView Menos;
-    ImageView Mas;
+    public TextView fecha;
+    //ImageView Menos;
+    //ImageView Mas;
     //private IListener lisener;
     private int position;
 
@@ -28,7 +29,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         this.imagen=(ImageView) v.findViewById(R.id.imagen);
         this.titulo=(TextView) v.findViewById(R.id.titulo);
         this.descripcion=(TextView) v.findViewById(R.id.descripcion);
-
+        this.fecha=(TextView) v.findViewById(R.id.fecha);
         /*Mas = (ImageView) itemView.findViewById(R.id.mas);
         Menos = (ImageView) itemView.findViewById(R.id.menos);
         Mas.setOnClickListener(this);

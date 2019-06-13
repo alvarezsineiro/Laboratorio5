@@ -17,14 +17,14 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
 
     List<Noticia> listado;
-    //private IListener main;
+    private MyListener main;
     private Handler handler;
 
 
-    public MyAdapter(List<Noticia> listado/*,IListener main*/, Handler handler){
+    public MyAdapter(List<Noticia> listado,MyListener main, Handler handler){
 
         this.listado =listado;
-        //this.main=main;
+        this.main=main;
         this.handler=handler;
     }
     @Override
@@ -33,7 +33,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
         View v =null;
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout,parent,false);
 
-        MyViewHolder myViewHolder = new MyViewHolder(v/*,main*/);
+        MyViewHolder myViewHolder = new MyViewHolder(v,main);
 
 
         return myViewHolder;
@@ -48,6 +48,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
 
 
         holder.titulo.setText(p.getTitulo());
+        holder.url.setText(p.getUrl().substring(0, 35).concat("..."));
         if (p.getDescripcion().length()>80) {
             holder.descripcion.setText(p.getDescripcion().substring(0, 80).concat("..."));
         }

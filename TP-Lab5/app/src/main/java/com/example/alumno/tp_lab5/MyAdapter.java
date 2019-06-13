@@ -1,12 +1,13 @@
 package com.example.alumno.tp_lab5;
 
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Handler;
+
+import java.text.DateFormat;
 import java.util.List;
 
 
@@ -17,11 +18,11 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
 
     List<Noticia> listado;
-    private MyListener main;
+    private IListener main;
     private Handler handler;
 
 
-    public MyAdapter(List<Noticia> listado,MyListener main, Handler handler){
+    public MyAdapter(List<Noticia> listado, IListener main, Handler handler){
 
         this.listado =listado;
         this.main=main;
@@ -56,7 +57,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
         {
             holder.descripcion.setText(p.getDescripcion());
         }
-        holder.fecha.setText(p.getFecha().toString());
+        holder.fecha.setText( DateFormat.getDateInstance().format(p.getFecha())); //p.getFecha().toString());
         if(p.getImagen()==null)
         {
             MyThread hilo = new MyThread(this.handler,p.getImagenUrl(),2,position);

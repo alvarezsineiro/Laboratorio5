@@ -19,7 +19,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClic
     public TextView url;
     //ImageView Menos;
     //ImageView Mas;
-    private MyListener listener;
+    private IListener listener;
     private int position;
     private CardView item;
 
@@ -27,7 +27,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClic
         this.position = position;
     }
 
-    public MyViewHolder(View v, MyListener main) {
+    public MyViewHolder(View v, IListener main) {
         super(v);
         this.imagen=(ImageView) v.findViewById(R.id.imagen);
         this.titulo=(TextView) v.findViewById(R.id.titulo);

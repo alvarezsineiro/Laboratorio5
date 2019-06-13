@@ -13,9 +13,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements Handler.Callback,MyListener,SearchView.OnQueryTextListener{
+public class MainActivity extends AppCompatActivity implements Handler.Callback,IListener,SearchView.OnQueryTextListener{
 
     List<Noticia> noticias;
     MyAdapter adapter;
@@ -47,12 +49,12 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
             //Log.d("Handler",msg.obj.toString());
             //TextView t = (TextView)this.findViewById(R.id.txtview);
             //t.setText(msg.obj.toString());
-            this.noticias=(List<Noticia>)msg.obj;
-
+            this.noticias= (List < Noticia >)msg.obj;
+            Collections.sort(this.noticias);
             RecyclerView lista =(RecyclerView)findViewById(R.id.listado);
             LinearLayoutManager layoutManager =new LinearLayoutManager(this);
             lista.setLayoutManager(layoutManager);
-            this.adapter =new MyAdapter((List<Noticia>)msg.obj,this,this.h);
+            this.adapter =new MyAdapter(this.noticias,this,this.h);
             lista.setAdapter(adapter);
 
         }
@@ -103,7 +105,8 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()==R.id.opcion2)
         {
-            Log.d("Opcion 1","Toco opcion 2");
+            MyMessenge mensaje =new MyMessenge();
+            mensaje.show(getSupportFragmentManager(),"");
         }
 
 

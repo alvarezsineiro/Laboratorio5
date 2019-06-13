@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by Agus on 4/6/2019.
  */
 
-public class Noticia {
+public class Noticia implements Comparable<Noticia> {
 
     private String titulo;
     private String descripcion ="Sin descripción";
@@ -77,5 +77,10 @@ public class Noticia {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    @Override
+    public int compareTo(Noticia noticia) {
+        return this.fecha.compareTo(noticia.getFecha()) * -1;
     }
 }

@@ -50,8 +50,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
 
         holder.titulo.setText(p.getTitulo());
         holder.url.setText(p.getUrl().substring(0, 35).concat("..."));
-        if (p.getDescripcion().length()>80) {
-            holder.descripcion.setText(p.getDescripcion().substring(0, 80).concat("..."));
+        if (p.getDescripcion().length()>50) {
+            holder.descripcion.setText(p.getDescripcion().substring(0, 50).concat("..."));
         }
         else
         {

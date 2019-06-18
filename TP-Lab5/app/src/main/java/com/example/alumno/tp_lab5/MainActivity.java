@@ -1,6 +1,8 @@
 package com.example.alumno.tp_lab5;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
@@ -12,16 +14,22 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CheckBox;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Handler.Callback,IListener,SearchView.OnQueryTextListener{
 
-    List<Noticia> noticias;
+    public static List<Noticia> noticias;
     MyAdapter adapter;
-    Handler h;
+    public static Handler h;
+    public static View view;
+    public static SharedPreferences shared ;
+    public static List<String> urls;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,12 +38,28 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         ActionBar actionBar =getSupportActionBar();
         actionBar.setTitle("Noticias");
 
-        //https://www.pagina12.com.ar/rss/portada
-        //https://tn.com.ar/rss.xml
+        MainActivity.shared=getPreferences(Context.MODE_PRIVATE);
+
+        urls= new ArrayList<>();
+        urls.add("https://www.pagina12.com.ar/rss/portada");
+        urls.add("https://tn.com.ar/rss.xml");
+        urls.add("http://www.telam.com.ar/rss2/ultimasnoticias.xml");
+        urls.add("https://cronicaglobal.elespanol.com/es/rss/general-001.xml");
+
         this.h =new Handler(this);
 
-        MyThread t = new MyThread(h,"https://www.pagina12.com.ar/rss/portada",1);
-        t.start();
+        //MyThread t = new MyThread(h,"https://cronicaglobal.elespanol.com/es/rss/general-001.xml",1);
+        //t.start();
+        for (String s:MainActivity.urls)
+        {
+            if (MainActivity.shared.getBoolean(s,true))
+            {
+                MyThread t = new MyThread(h,s,1);
+                t.start();
+                Log.d("asda",s);
+            }
+        }
+
     }
 
     @Override
@@ -49,13 +73,22 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
             //Log.d("Handler",msg.obj.toString());
             //TextView t = (TextView)this.findViewById(R.id.txtview);
             //t.setText(msg.obj.toString());
-            this.noticias= (List < Noticia >)msg.obj;
+            if (this.noticias==null)
+            {
+                this.noticias= (List < Noticia >)msg.obj;
+            }
+            else
+            {
+                this.noticias.addAll( (List < Noticia >)msg.obj);
+            }
+
             Collections.sort(this.noticias);
             RecyclerView lista =(RecyclerView)findViewById(R.id.listado);
             LinearLayoutManager layoutManager =new LinearLayoutManager(this);
             lista.setLayoutManager(layoutManager);
             this.adapter =new MyAdapter(this.noticias,this,this.h);
             lista.setAdapter(adapter);
+            this.adapter.notifyDataSetChanged();
 
         }
         else
@@ -107,9 +140,23 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
         {
             MyMessenge mensaje =new MyMessenge();
             mensaje.show(getSupportFragmentManager(),"");
+
         }
 
 
         return super.onOptionsItemSelected(item);
+    }
+    public static void metodo()
+    {
+        MainActivity.noticias.clear();
+        for (String s:MainActivity.urls)
+        {
+            if (MainActivity.shared.getBoolean(s,true))
+            {
+                MyThread t = new MyThread(h,s,1);
+                t.start();
+                Log.d("asda",s);
+            }
+        }
     }
 }

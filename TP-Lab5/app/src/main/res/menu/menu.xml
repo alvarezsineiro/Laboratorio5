@@ -9,7 +9,13 @@
         >
 
     </item>
-    <item android:id="@+id/opcion2" android:title="Cambiar links"
+    <item android:id="@+id/opcion2" android:title="Cambiar link"
+        app:showAsAction="never"
+        android:icon="@android:drawable/btn_plus"
+        android:orderInCategory="110"
+        ></item>
+
+    <item android:id="@+id/opcion3" android:title="Agregar link"
         app:showAsAction="never"
         android:icon="@android:drawable/btn_plus"
         android:orderInCategory="110"

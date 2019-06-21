@@ -125,13 +125,15 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
     @Override
     public boolean onQueryTextSubmit(String query) {
         Log.d("submit",query);
-        return false;
+        this.filter(query);
+        return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Log.d("change",newText);
-        return false;
+        this.filter(newText);
+        Log.d("TextChange", newText);
+        return true;
     }
 
     @Override
@@ -159,4 +161,34 @@ public class MainActivity extends AppCompatActivity implements Handler.Callback,
             }
         }
     }
+
+    public void filter(String text) {
+
+        if(noticias!=null)
+        {
+            List<Noticia> noticiasAux =new ArrayList<>();
+
+            if(text.length()<3)
+            {
+                this.adapter.setListado(this.noticias);
+            }
+            else {
+                text = text.toLowerCase();
+                for(Noticia item: this.noticias)
+                {
+                    if(item.getTitulo().toLowerCase().contains(text))
+                    {
+                        noticiasAux.add(item);
+                    }
+                }
+                this.adapter.setListado(noticiasAux);
+            }
+            this.adapter.notifyDataSetChanged();
+
+        }
+
+
+
+    }
 }
+

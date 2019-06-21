@@ -70,6 +70,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
 
     }
 
+
     @Override
     public int getItemCount() {
         return this.listado.size();
@@ -78,5 +79,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder>{
     public void SetImagen(byte[] imagen,int position){
         Noticia p = this.listado.get(position);
         p.setImagen(imagen);
+    }
+
+    public void setListado(List<Noticia> listado) {
+        this.listado = listado;
+    }
+
+    public List<Noticia> getListado() {
+        return listado;
     }
 }

@@ -13,7 +13,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 
 public class SegundaActivity extends AppCompatActivity {
-
+    public String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FloatingActionButton bt;
@@ -29,7 +29,8 @@ public class SegundaActivity extends AppCompatActivity {
         ws.setJavaScriptEnabled(true);
         wv.setWebViewClient(new WebViewClient());
         Intent i = getIntent();
-        wv.loadUrl(i.getStringExtra("Url"));
+        this.url=i.getStringExtra("Url");
+        wv.loadUrl(this.url);
 
         bt=(FloatingActionButton)findViewById(R.id.fab);
         bt.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +38,7 @@ public class SegundaActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i=new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
-                String shareBody = "Body";
+                String shareBody = url;
                 String shareSub = "Sub";
                 i.putExtra(Intent.EXTRA_SUBJECT,shareSub);
                 i.putExtra(Intent.EXTRA_TEXT,shareBody);
